@@ -146,7 +146,8 @@ async def play_random_song():
 
                 await asyncio.sleep(audio_duration)
 
-                wait_time = random.randint(300, 1800)  
+                wait_time_seconds = random.randint(300, 1800) 
+                wait_time_minutes = wait_time_seconds // 60  
                 print(f"""
                       --------------------------------------------------------------
                       --------------------------------------------------------------
@@ -154,7 +155,7 @@ async def play_random_song():
                       --------------------------------------------------------------
                       --------------------------------------------------------------
                       """)
-                await asyncio.sleep(wait_time)
+                await asyncio.sleep(wait_time_seconds)
 
         except discord.errors.ConnectionClosed as e:
             target_voice_channel_id = 1150149299028635731
