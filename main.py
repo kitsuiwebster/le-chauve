@@ -146,7 +146,14 @@ async def play_random_song():
 
                 await asyncio.sleep(audio_duration)
 
-                wait_time = random.randint(300, 1800)
+                wait_time = random.randint(300, 1800)  
+                print(f"""
+                      --------------------------------------------------------------
+                      --------------------------------------------------------------
+                      Waiting for {wait_time} seconds before playing the next song.
+                      --------------------------------------------------------------
+                      --------------------------------------------------------------
+                      """)
                 await asyncio.sleep(wait_time)
 
         except discord.errors.ConnectionClosed as e:
