@@ -151,7 +151,7 @@ async def play_random_song():
                 print(f"""
                       --------------------------------------------------------------
                       --------------------------------------------------------------
-                      Waiting for {wait_time_minutes} seconds before playing the next romeo meme.
+                      Waiting for {wait_time_minutes} minutes before playing the next romeo meme.
                       --------------------------------------------------------------
                       --------------------------------------------------------------
                       """)
