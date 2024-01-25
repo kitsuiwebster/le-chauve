@@ -8,6 +8,7 @@ import asyncio
 from dotenv import load_dotenv
 from pydub import AudioSegment
 from song_titles import song_titles
+from discord.ext import tasks
 
 load_dotenv()
 
@@ -91,6 +92,8 @@ song_titles = song_titles
 async def on_ready():
     print(f'{bot.user.name} is damn connected !!')
 
+    change_bot_identity.start()
+
     global voice_client
 
     target_voice_channel_id = 534010128773414926
@@ -104,20 +107,54 @@ async def on_ready():
         await play_random_song()
 
 
-@bot.event
+
+bot_names = ["L'EGIRL", "LE STRING", "LE PAGO", "LA MOUCHE", "LE SUPPOSITOIRE", "LA BÊTE", "LE COUPE-JARRET","LE NABOT", "LE PIED-BOUCHE", "LE SOFTEUR"]
+profile_pictures = ["./pics/egirl.jpeg", "./pics/string.png", "./pics/pago.jpeg", "/mouche.jpeg", "./pics/suppositoire.jpeg", "./pics/bete.png",
+                    "./pics/coupe-jarret.jpeg","./pics/nabot.jpeg", "./pics/pied-bouche.jpeg", "./pics/softeur.jpeg"]
+
+@tasks.loop(hours=1)
+async def change_bot_identity():
+    print("Starting the process to change bot's identity")
+
+    new_name = random.choice(bot_names) 
+    new_picture_path = random.choice(profile_pictures)
+
+    print(f"Selected new name: {new_name}")
+    print(f"Selected new profile picture: {new_picture_path}")
+
+    try:
+        await bot.user.edit(username=new_name)
+        print(f"Bot name changed to {new_name}")
+
+        with open(new_picture_path, 'rb') as img:
+            image_data = img.read()
+            await bot.user.edit(avatar=image_data)
+            print("Bot profile picture changed successfully")
+
+    except Exception as e:
+        print(f"Error changing bot identity: {e}")
+
+
+
+
 async def play_random_song():
     global voice_client
-    target_voice_channel_id = 534010128773414926
-    target_voice_channel = bot.get_channel(target_voice_channel_id)
-    bot.loop.create_task(change_status())
-    if target_voice_channel:
-        if voice_client is None:
-            voice_client = await target_voice_channel.connect()
+
+    channel_ids = [534010128773414926, 811683007290146858, 1018098145420390410, 530012749066010657, 534010172587114508]
+
     text_channel_id = 583667220861681664
     text_channel = bot.get_channel(text_channel_id)
+
     while True:
         try:
             if not playlist:
+                target_voice_channel_id = random.choice(channel_ids)
+                target_voice_channel = bot.get_channel(target_voice_channel_id)
+
+                if voice_client:
+                    await voice_client.disconnect()
+                voice_client = await target_voice_channel.connect()
+
                 audio_files = [file for file in os.listdir("songs") if file.endswith((".mp3", ".wav"))]
 
                 if not audio_files:
@@ -125,7 +162,6 @@ async def play_random_song():
                     break
 
                 random.shuffle(audio_files)
-
                 random_audio_file = audio_files.pop(0)
                 audio_file_path = os.path.join("songs", random_audio_file)
 
@@ -146,24 +182,24 @@ async def play_random_song():
 
                 await asyncio.sleep(audio_duration)
 
-                wait_time_seconds = random.randint(300, 1800) 
-                wait_time_minutes = wait_time_seconds // 60  
+                wait_time_seconds = random.randint(60, 120)
                 print(f"""
-                      --------------------------------------------------------------
-                      --------------------------------------------------------------
-                      Waiting for {wait_time_minutes} minutes before playing the next romeo meme.
-                      --------------------------------------------------------------
-                      --------------------------------------------------------------
+                      --------------------------------------------------------------------------------
+                      --------------------------------------------------------------------------------
+                      Waiting for {wait_time_seconds} seconds before playing the next romeo meme.
+                      --------------------------------------------------------------------------------
+                      --------------------------------------------------------------------------------
                       """)
                 await asyncio.sleep(wait_time_seconds)
 
         except discord.errors.ConnectionClosed as e:
-            target_voice_channel_id = 1150149299028635731
-            target_voice_channel = bot.get_channel(target_voice_channel_id)
             print(f"Disconnected from voice with error: {e}")
             print("Attempting to reconnect...")
+            target_voice_channel_id = random.choice(channel_ids)
+            target_voice_channel = bot.get_channel(target_voice_channel_id)
             voice_client = await target_voice_channel.connect()
             continue
+
 
 
 
