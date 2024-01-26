@@ -108,9 +108,9 @@ async def on_ready():
 
 
 
-bot_names = ["LE SOFTEUR", "LA BÊTE", "LE STRING", "L'EGIRL", "LE PAGO", "LA MOUCHE", "LE SUPPOSITOIRE", "LE COUPE-JARRET","LE NABOT", "LE PIED-BOUCHE", 
+bot_names = ["LE STRING", "LE SOFTEUR", "LA BÊTE", "L'EGIRL", "LE PAGO", "LA MOUCHE", "LE SUPPOSITOIRE", "LE COUPE-JARRET","LE NABOT", "LE PIED-BOUCHE", 
              "LE FRÈRE", "LA BULLE", "LE NABUCHODONOSOR"]
-profile_pictures = ["./pics/09softeur.jpeg", "./pics/05bete.png", "./pics/00string.png", "./pics/01egirl.jpeg", "./pics/02pago.jpeg",
+profile_pictures = ["./pics/00string.png", "./pics/09softeur.jpeg", "./pics/05bete.png", "./pics/01egirl.jpeg", "./pics/02pago.jpeg",
                     "/03mouche.jpeg", "./pics/04suppositoire.jpeg", 
                     "./pics/06coupe-jarret.jpeg","./pics/07nabot.jpeg", "./pics/08pied-bouche.png",  "./pics/10frere.png",
                     "./pics/bulle.png", "./pics/nabu.png"]
@@ -193,7 +193,7 @@ async def play_random_song():
 
                 await asyncio.sleep(audio_duration)
 
-                wait_time_seconds = random.randint(240, 300)
+                wait_time_seconds = random.randint(120, 240)
                 print(f"""
                       -------------------------------------------------------
                       -------------------------------------------------------
