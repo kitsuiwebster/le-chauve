@@ -108,9 +108,10 @@ async def on_ready():
 
 
 
-bot_names = ["L'EGIRL", "LE STRING", "LE PAGO", "LA MOUCHE", "LE SUPPOSITOIRE", "LA BÊTE", "LE COUPE-JARRET","LE NABOT", "LE PIED-BOUCHE", "LE SOFTEUR"]
-profile_pictures = ["./pics/egirl.jpeg", "./pics/string.png", "./pics/pago.jpeg", "/mouche.jpeg", "./pics/suppositoire.jpeg", "./pics/bete.png",
-                    "./pics/coupe-jarret.jpeg","./pics/nabot.jpeg", "./pics/pied-bouche.jpeg", "./pics/softeur.jpeg"]
+bot_names = ["LE STRING", "L'EGIRL", "LE PAGO", "LA MOUCHE", "LE SUPPOSITOIRE", "LA BÊTE", "LE COUPE-JARRET","LE NABOT", "LE PIED-BOUCHE", "LE SOFTEUR",
+             "LE FRÈRE"]
+profile_pictures = ["./pics/01egirl.jpeg", "./pics/00string.png", "./pics/02pago.jpeg", "/03mouche.jpeg", "./pics/04suppositoire.jpeg", "./pics/05bete.png",
+                    "./pics/06coupe-jarret.jpeg","./pics/07nabot.jpeg", "./pics/08pied-bouche.jpeg", "./pics/09softeur.jpeg", "./pics/10frere.png"]
 
 @tasks.loop(hours=1)
 async def change_bot_identity():
