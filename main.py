@@ -208,7 +208,7 @@ async def play_random_song():
 
             await asyncio.sleep(audio_duration)
 
-            wait_time_seconds = random.randint(120, 240)
+            wait_time_seconds = random.randint(300, 600)
             print(f"""
                   -------------------------------------------------------
                   -------------------------------------------------------
