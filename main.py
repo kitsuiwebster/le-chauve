@@ -110,10 +110,10 @@ async def on_ready():
 
 
 bot_names = ["LE SUPPOSITOIRE", "LE STRING", "LE SOFTEUR", "LA BÊTE", "L'EGIRL", "LE PAGO", "LA MOUCHE", "LE SUPPOSITOIRE", "LE COUPE-JARRET","LE NABOT", "LE PIED-BOUCHE", 
-             "LE FRÈRE", "LA BULLE", "LE NABUCHODONOSOR"]
+             "LE FRÈRE", "LA BULLE", "LE NABUCHODONOSOR", "LA NOUILLE", "LE MALOTRU", "LA FLAQUE"]
 profile_pictures = ["./pics/04suppositoire.jpeg", "./pics/00string.png", "./pics/09softeur.jpeg", "./pics/05bete.png", "./pics/01egirl.jpeg",
                     "./pics/02pago.jpeg","/03mouche.jpeg", "./pics/06coupe-jarret.jpeg","./pics/07nabot.jpeg", "./pics/08pied-bouche.png",
-                    "./pics/10frere.png", "./pics/bulle.png", "./pics/nabu.png"]
+                    "./pics/10frere.png", "./pics/bulle.png", "./pics/nabu.png", "./pics/nouille.png", "./pics/malotru.png", "./pics/flaque"]
 
 current_index = 0
 
@@ -155,6 +155,8 @@ async def play_random_song():
     text_channel_id = 1199479426497380423
     text_channel = bot.get_channel(text_channel_id)
 
+    wait_channel_id = 1200530884831477841  # Channel ID for waiting
+
     empty_channel_count = 0
 
     while True:
@@ -163,7 +165,7 @@ async def play_random_song():
                 print("15 empty channels encountered. Disconnecting and waiting for 30 minutes.")
                 if voice_client:
                     await voice_client.disconnect()
-                await asyncio.sleep(1800)  
+                await asyncio.sleep(1800)  # Wait for 30 minutes
                 empty_channel_count = 0
                 continue
 
@@ -208,15 +210,17 @@ async def play_random_song():
 
             await asyncio.sleep(audio_duration)
 
-            wait_time_seconds = random.randint(300, 600)
-            print(f"""
-                  -------------------------------------------------------
-                  -------------------------------------------------------
-                  Waiting for {wait_time_seconds // 60} minutes before playing the next song.
-                  -------------------------------------------------------
-                  -------------------------------------------------------
-                  """)
-            await asyncio.sleep(wait_time_seconds)
+            print("Waiting for 5 minutes in the channel after playing the song.")
+            await asyncio.sleep(300)  # Wait for 5 minutes
+
+            # Move to wait channel and wait for another 5 minutes
+            wait_channel = bot.get_channel(wait_channel_id)
+            if wait_channel:
+                if voice_client:
+                    await voice_client.disconnect()
+                voice_client = await wait_channel.connect()
+                print(f"Bot is in wait channel {wait_channel.name}. Waiting for 5 minutes.")
+                await asyncio.sleep(300)  # Wait for 5 minutes in wait channel
 
         except discord.errors.ConnectionClosed as e:
             print(f"Disconnected from voice with error: {e}")
@@ -225,6 +229,7 @@ async def play_random_song():
             target_voice_channel = bot.get_channel(target_voice_channel_id)
             voice_client = await target_voice_channel.connect()
             continue
+
 
 
 
