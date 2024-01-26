@@ -108,14 +108,14 @@ async def on_ready():
 
 
 
-bot_names = ["LE STRING", "L'EGIRL", "LE PAGO", "LA MOUCHE", "LE SUPPOSITOIRE", "LA BÊTE", "LE COUPE-JARRET","LE NABOT", "LE PIED-BOUCHE", "LE SOFTEUR",
+bot_names = ["LA BÊTE", "LE STRING", "L'EGIRL", "LE PAGO", "LA MOUCHE", "LE SUPPOSITOIRE", "LE COUPE-JARRET","LE NABOT", "LE PIED-BOUCHE", "LE SOFTEUR",
              "LE FRÈRE"]
-profile_pictures = ["./pics/00string.png", "./pics/01egirl.jpeg", "./pics/02pago.jpeg", "/03mouche.jpeg", "./pics/04suppositoire.jpeg", "./pics/05bete.png",
+profile_pictures = ["./pics/05bete.png", "./pics/00string.png", "./pics/01egirl.jpeg", "./pics/02pago.jpeg", "/03mouche.jpeg", "./pics/04suppositoire.jpeg", 
                     "./pics/06coupe-jarret.jpeg","./pics/07nabot.jpeg", "./pics/08pied-bouche.png", "./pics/09softeur.jpeg", "./pics/10frere.png"]
 
 current_index = 0
 
-@tasks.loop(hours=3)
+@tasks.loop(hours=12)
 async def change_bot_identity():
     global current_index 
 
@@ -191,13 +191,13 @@ async def play_random_song():
 
                 await asyncio.sleep(audio_duration)
 
-                wait_time_seconds = random.randint(60, 120)
+                wait_time_seconds = random.randint(240, 300)
                 print(f"""
-                      --------------------------------------------------------------------------------
-                      --------------------------------------------------------------------------------
-                      Waiting for {wait_time_seconds} seconds before playing the next romeo meme.
-                      --------------------------------------------------------------------------------
-                      --------------------------------------------------------------------------------
+                      -------------------------------------------------------
+                      -------------------------------------------------------
+                      Waiting for {wait_time_seconds // 60 } minutes before playing the next romeo meme.
+                      -------------------------------------------------------
+                      -------------------------------------------------------
                       """)
                 await asyncio.sleep(wait_time_seconds)
 
