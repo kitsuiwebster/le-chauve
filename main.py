@@ -30,6 +30,41 @@ logging.basicConfig(
 
 
 
+class NextCog(commands.Cog):
+    def __init__(self, bot, voice_client):
+        self.bot = bot
+        self.voice_client = voice_client
+
+    @commands.command()
+    async def next(self, ctx):
+        print("Next command triggered")
+        voice_client = None
+        for vc in self.bot.voice_clients:
+            if vc.guild == ctx.guild:
+                voice_client = vc
+                break
+
+        if voice_client is None:
+            print("Bot is not connected to a voice channel.")
+            return
+
+        try:
+
+            voice_client.stop()
+            print("Next song will play")
+            await play_random_song()
+            
+        except Exception as e:
+            print(f"Error occurred tg: {e}")
+
+async def setup(bot, voice_client):
+    cog = NextCog(bot, voice_client)
+    bot.add_cog(cog)
+    return cog
+
+
+
+
 
 async def change_status():
     await bot.wait_until_ready()
@@ -228,6 +263,9 @@ Bot is in {wait_channel.name}. Waiting for 5 minutes.
 
 
 
+
+
+
 bot_token = os.getenv("DISCORD_BOT_TOKEN")
 
 async def run_bot():
@@ -242,7 +280,7 @@ async def run_bot():
 
 if __name__ == "__main__":
     try:
-        bot.loop.run_until_complete((bot, voice_client))
+        bot.loop.run_until_complete(setup(bot, voice_client))
         bot.run(bot_token)
     except KeyboardInterrupt:
         if voice_client:
