@@ -30,41 +30,6 @@ logging.basicConfig(
 
 
 
-class NextCog(commands.Cog):
-    def __init__(self, bot, voice_client):
-        self.bot = bot
-        self.voice_client = voice_client
-
-    @commands.command()
-    async def next(self, ctx):
-        print("Next command triggered")
-        voice_client = None
-        for vc in self.bot.voice_clients:
-            if vc.guild == ctx.guild:
-                voice_client = vc
-                break
-
-        if voice_client is None:
-            print("Bot is not connected to a voice channel.")
-            return
-
-        try:
-
-            voice_client.stop()
-            print("Next song will play")
-            await play_random_song()
-            
-        except Exception as e:
-            print(f"Error occurred tg: {e}")
-
-async def setup(bot, voice_client):
-    cog = NextCog(bot, voice_client)
-    bot.add_cog(cog)
-    return cog
-
-
-
-
 
 async def change_status():
     await bot.wait_until_ready()
@@ -91,7 +56,11 @@ song_titles = song_titles
 
 @bot.event
 async def on_ready():
-    print(f'{bot.user.name} is damn connected !!')
+    print(f"""
+=============================================================
+{bot.user.name} is damn connected !!
+=============================================================          
+""")
 
     change_bot_identity.start()
 
@@ -126,17 +95,28 @@ async def change_bot_identity():
     new_name = bot_names[current_index]
     new_picture_path = profile_pictures[current_index]
 
-    print(f"Selected new name: {new_name}")
-    print(f"Selected new profile picture: {new_picture_path}")
-
+    print(f"""
+=============================================================
+Selected new name: {new_name}
+Selected new profile picture: {new_picture_path}
+=============================================================
+""")
     try:
         await bot.user.edit(username=new_name)
-        print(f"Bot name changed to {new_name}")
+        print(f"""
+=============================================================              
+Bot name changed to {new_name}
+=============================================================
+""")
 
         with open(new_picture_path, 'rb') as img:
             image_data = img.read()
             await bot.user.edit(avatar=image_data)
-            print("Bot profile picture changed successfully")
+            print("""
+=============================================================                  
+Bot profile picture changed successfully
+=============================================================
+""")
 
         current_index = (current_index + 1) % len(bot_names)
 
@@ -155,17 +135,21 @@ async def play_random_song():
     text_channel_id = 1199479426497380423
     text_channel = bot.get_channel(text_channel_id)
 
-    wait_channel_id = 1200530884831477841  # Channel ID for waiting
+    wait_channel_id = 1200530884831477841  
 
     empty_channel_count = 0
 
     while True:
         try:
             if empty_channel_count >= 15:
-                print("15 empty channels encountered. Disconnecting and waiting for 30 minutes.")
+                print("""
+=============================================================
+15 empty channels encountered. Disconnecting and waiting for 30 minutes.
+=============================================================
+""")
                 if voice_client:
                     await voice_client.disconnect()
-                await asyncio.sleep(1800)  # Wait for 30 minutes
+                await asyncio.sleep(1800)  
                 empty_channel_count = 0
                 continue
 
@@ -177,7 +161,11 @@ async def play_random_song():
             voice_client = await target_voice_channel.connect()
 
             if len([member for member in target_voice_channel.members if member != bot.user]) == 0:
-                print(f"Voice channel {target_voice_channel.name} is empty. Moving to the next channel.")
+                print(f"""
+=============================================================
+Voice channel {target_voice_channel.name} is empty. Moving to the next channel.
+=============================================================
+""")
                 empty_channel_count += 1
                 continue
             else:
@@ -210,17 +198,24 @@ async def play_random_song():
 
             await asyncio.sleep(audio_duration)
 
-            print("Waiting for 5 minutes in the channel after playing the song.")
-            await asyncio.sleep(300)  # Wait for 5 minutes
+            print("""
+=============================================================
+Waiting for 5 minutes in the channel after playing the song.
+=============================================================
+""")
+            await asyncio.sleep(300)
 
-            # Move to wait channel and wait for another 5 minutes
             wait_channel = bot.get_channel(wait_channel_id)
             if wait_channel:
                 if voice_client:
                     await voice_client.disconnect()
                 voice_client = await wait_channel.connect()
-                print(f"Bot is in wait channel {wait_channel.name}. Waiting for 5 minutes.")
-                await asyncio.sleep(300)  # Wait for 5 minutes in wait channel
+                print(f"""
+=============================================================
+Bot is in {wait_channel.name}. Waiting for 5 minutes.
+=============================================================
+""")
+                await asyncio.sleep(300) 
 
         except discord.errors.ConnectionClosed as e:
             print(f"Disconnected from voice with error: {e}")
@@ -229,9 +224,6 @@ async def play_random_song():
             target_voice_channel = bot.get_channel(target_voice_channel_id)
             voice_client = await target_voice_channel.connect()
             continue
-
-
-
 
 
 
@@ -250,7 +242,7 @@ async def run_bot():
 
 if __name__ == "__main__":
     try:
-        bot.loop.run_until_complete(setup(bot, voice_client))
+        bot.loop.run_until_complete((bot, voice_client))
         bot.run(bot_token)
     except KeyboardInterrupt:
         if voice_client:
