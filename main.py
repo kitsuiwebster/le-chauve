@@ -96,7 +96,7 @@ async def on_ready():
 
     global voice_client
 
-    target_voice_channel_id = 534010128773414926
+    target_voice_channel_id = 1018098145420390410
     target_voice_channel = bot.get_channel(target_voice_channel_id)
 
     bot.loop.create_task(change_status())
@@ -110,15 +110,19 @@ async def on_ready():
 
 bot_names = ["LE STRING", "L'EGIRL", "LE PAGO", "LA MOUCHE", "LE SUPPOSITOIRE", "LA BÊTE", "LE COUPE-JARRET","LE NABOT", "LE PIED-BOUCHE", "LE SOFTEUR",
              "LE FRÈRE"]
-profile_pictures = ["./pics/01egirl.jpeg", "./pics/00string.png", "./pics/02pago.jpeg", "/03mouche.jpeg", "./pics/04suppositoire.jpeg", "./pics/05bete.png",
-                    "./pics/06coupe-jarret.jpeg","./pics/07nabot.jpeg", "./pics/08pied-bouche.jpeg", "./pics/09softeur.jpeg", "./pics/10frere.png"]
+profile_pictures = ["./pics/00string.png", "./pics/01egirl.jpeg", "./pics/02pago.jpeg", "/03mouche.jpeg", "./pics/04suppositoire.jpeg", "./pics/05bete.png",
+                    "./pics/06coupe-jarret.jpeg","./pics/07nabot.jpeg", "./pics/08pied-bouche.png", "./pics/09softeur.jpeg", "./pics/10frere.png"]
+
+current_index = 0
 
 @tasks.loop(hours=1)
 async def change_bot_identity():
+    global current_index 
+
     print("Starting the process to change bot's identity")
 
-    new_name = random.choice(bot_names) 
-    new_picture_path = random.choice(profile_pictures)
+    new_name = bot_names[current_index]
+    new_picture_path = profile_pictures[current_index]
 
     print(f"Selected new name: {new_name}")
     print(f"Selected new profile picture: {new_picture_path}")
@@ -132,8 +136,11 @@ async def change_bot_identity():
             await bot.user.edit(avatar=image_data)
             print("Bot profile picture changed successfully")
 
+        current_index = (current_index + 1) % len(bot_names)
+
     except Exception as e:
         print(f"Error changing bot identity: {e}")
+
 
 
 
