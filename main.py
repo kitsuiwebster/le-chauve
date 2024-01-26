@@ -109,9 +109,9 @@ async def on_ready():
 
 
 
-bot_names = ["LE SUPPOSITOIRE", "LE STRING", "LE SOFTEUR", "LA BÊTE", "L'EGIRL", "LE PAGO", "LA MOUCHE", "LE SUPPOSITOIRE", "LE COUPE-JARRET","LE NABOT", "LE PIED-BOUCHE", 
+bot_names = ["LE SOFTEUR", "LE SUPPOSITOIRE", "LE STRING", "LA BÊTE", "L'EGIRL", "LE PAGO", "LA MOUCHE", "LE SUPPOSITOIRE", "LE COUPE-JARRET","LE NABOT", "LE PIED-BOUCHE", 
              "LE FRÈRE", "LA BULLE", "LE NABUCHODONOSOR", "LA NOUILLE", "LE MALOTRU", "LA FLAQUE"]
-profile_pictures = ["./pics/04suppositoire.jpeg", "./pics/00string.png", "./pics/09softeur.jpeg", "./pics/05bete.png", "./pics/01egirl.jpeg",
+profile_pictures = ["./pics/09softeur.jpeg", "./pics/04suppositoire.jpeg", "./pics/00string.png", "./pics/05bete.png", "./pics/01egirl.jpeg",
                     "./pics/02pago.jpeg","/03mouche.jpeg", "./pics/06coupe-jarret.jpeg","./pics/07nabot.jpeg", "./pics/08pied-bouche.png",
                     "./pics/10frere.png", "./pics/bulle.png", "./pics/nabu.png", "./pics/nouille.png", "./pics/malotru.png", "./pics/flaque"]
 
