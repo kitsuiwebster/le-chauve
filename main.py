@@ -109,9 +109,11 @@ async def on_ready():
 
 
 bot_names = ["LE SOFTEUR", "LA BÊTE", "LE STRING", "L'EGIRL", "LE PAGO", "LA MOUCHE", "LE SUPPOSITOIRE", "LE COUPE-JARRET","LE NABOT", "LE PIED-BOUCHE", 
-             "LE FRÈRE"]
-profile_pictures = ["./pics/09softeur.jpeg", "./pics/05bete.png", "./pics/00string.png", "./pics/01egirl.jpeg", "./pics/02pago.jpeg", "/03mouche.jpeg", "./pics/04suppositoire.jpeg", 
-                    "./pics/06coupe-jarret.jpeg","./pics/07nabot.jpeg", "./pics/08pied-bouche.png",  "./pics/10frere.png"]
+             "LE FRÈRE", "LA BULLE", "LE NABUCHODONOSOR"]
+profile_pictures = ["./pics/09softeur.jpeg", "./pics/05bete.png", "./pics/00string.png", "./pics/01egirl.jpeg", "./pics/02pago.jpeg",
+                    "/03mouche.jpeg", "./pics/04suppositoire.jpeg", 
+                    "./pics/06coupe-jarret.jpeg","./pics/07nabot.jpeg", "./pics/08pied-bouche.png",  "./pics/10frere.png",
+                    "./pics/bulle.png", "./pics/nabu.png"]
 
 current_index = 0
 
