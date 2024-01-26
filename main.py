@@ -93,7 +93,7 @@ song_titles = song_titles
 async def on_ready():
     print(f'{bot.user.name} is damn connected !!')
 
-    # change_bot_identity.start()
+    change_bot_identity.start()
 
     global voice_client
 
@@ -109,39 +109,39 @@ async def on_ready():
 
 
 
-# bot_names = ["LE SUPPOSITOIRE", "LE STRING", "LE SOFTEUR", "LA BÊTE", "L'EGIRL", "LE PAGO", "LA MOUCHE", "LE SUPPOSITOIRE", "LE COUPE-JARRET","LE NABOT", "LE PIED-BOUCHE", 
-#              "LE FRÈRE", "LA BULLE", "LE NABUCHODONOSOR"]
-# profile_pictures = ["./pics/04suppositoire.jpeg", "./pics/00string.png", "./pics/09softeur.jpeg", "./pics/05bete.png", "./pics/01egirl.jpeg",
-#                     "./pics/02pago.jpeg","/03mouche.jpeg", "./pics/06coupe-jarret.jpeg","./pics/07nabot.jpeg", "./pics/08pied-bouche.png",
-#                     "./pics/10frere.png", "./pics/bulle.png", "./pics/nabu.png"]
+bot_names = ["LE SUPPOSITOIRE", "LE STRING", "LE SOFTEUR", "LA BÊTE", "L'EGIRL", "LE PAGO", "LA MOUCHE", "LE SUPPOSITOIRE", "LE COUPE-JARRET","LE NABOT", "LE PIED-BOUCHE", 
+             "LE FRÈRE", "LA BULLE", "LE NABUCHODONOSOR"]
+profile_pictures = ["./pics/04suppositoire.jpeg", "./pics/00string.png", "./pics/09softeur.jpeg", "./pics/05bete.png", "./pics/01egirl.jpeg",
+                    "./pics/02pago.jpeg","/03mouche.jpeg", "./pics/06coupe-jarret.jpeg","./pics/07nabot.jpeg", "./pics/08pied-bouche.png",
+                    "./pics/10frere.png", "./pics/bulle.png", "./pics/nabu.png"]
 
-# current_index = 0
+current_index = 0
 
-# @tasks.loop(hours=5)
-# async def change_bot_identity():
-#     global current_index 
+@tasks.loop(hours=5)
+async def change_bot_identity():
+    global current_index 
 
-#     print("Starting the process to change bot's identity")
+    print("Starting the process to change bot's identity")
 
-#     new_name = bot_names[current_index]
-#     new_picture_path = profile_pictures[current_index]
+    new_name = bot_names[current_index]
+    new_picture_path = profile_pictures[current_index]
 
-#     print(f"Selected new name: {new_name}")
-#     print(f"Selected new profile picture: {new_picture_path}")
+    print(f"Selected new name: {new_name}")
+    print(f"Selected new profile picture: {new_picture_path}")
 
-#     try:
-#         await bot.user.edit(username=new_name)
-#         print(f"Bot name changed to {new_name}")
+    try:
+        await bot.user.edit(username=new_name)
+        print(f"Bot name changed to {new_name}")
 
-#         with open(new_picture_path, 'rb') as img:
-#             image_data = img.read()
-#             await bot.user.edit(avatar=image_data)
-#             print("Bot profile picture changed successfully")
+        with open(new_picture_path, 'rb') as img:
+            image_data = img.read()
+            await bot.user.edit(avatar=image_data)
+            print("Bot profile picture changed successfully")
 
-#         current_index = (current_index + 1) % len(bot_names)
+        current_index = (current_index + 1) % len(bot_names)
 
-#     except Exception as e:
-#         print(f"Error changing bot identity: {e}")
+    except Exception as e:
+        print(f"Error changing bot identity: {e}")
 
 
 
