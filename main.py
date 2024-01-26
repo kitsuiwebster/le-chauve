@@ -96,7 +96,7 @@ async def on_ready():
 
     global voice_client
 
-    target_voice_channel_id = 1018098145420390410
+    target_voice_channel_id = 1018098145420390410 
     target_voice_channel = bot.get_channel(target_voice_channel_id)
 
     bot.loop.create_task(change_status())
@@ -151,7 +151,7 @@ async def play_random_song():
     channel_ids = [534010128773414926, 811683007290146858, 1018098145420390410,
                    530012749066010657, 534010172587114508, 1017001428524486686]
 
-    text_channel_id = 583667220861681664
+    text_channel_id = 1199479426497380423
     text_channel = bot.get_channel(text_channel_id)
 
     while True:
