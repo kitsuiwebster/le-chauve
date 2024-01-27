@@ -170,7 +170,7 @@ async def play_random_song():
     text_channel_id = 1199479426497380423
     text_channel = bot.get_channel(text_channel_id)
 
-    wait_channel_id = 1200530884831477841  
+    wait_channel_id = 1200530884831477841
 
     empty_channel_count = 0
 
@@ -179,12 +179,12 @@ async def play_random_song():
             if empty_channel_count >= 15:
                 print("""
 =============================================================
-15 empty channels encountered. Disconnecting and waiting for 30 minutes.
+15 empty channels encountered. Disconnecting and waiting for 30 minutes.  
 =============================================================
 """)
                 if voice_client:
                     await voice_client.disconnect()
-                await asyncio.sleep(1800)  
+                await asyncio.sleep(1800)
                 empty_channel_count = 0
                 continue
 
@@ -195,7 +195,8 @@ async def play_random_song():
                 await voice_client.disconnect()
             voice_client = await target_voice_channel.connect()
 
-            if len([member for member in target_voice_channel.members if member != bot.user]) == 0:
+            channel_members = [member for member in target_voice_channel.members if member != bot.user]
+            if len(channel_members) == 0:
                 print(f"""
 =============================================================
 Voice channel {target_voice_channel.name} is empty. Moving to the next channel.
@@ -206,6 +207,13 @@ Voice channel {target_voice_channel.name} is empty. Moving to the next channel.
             else:
                 empty_channel_count = 0
 
+            print(f"""
+=============================================================
+Currently in voice channel: {target_voice_channel.name}
+Members in voice channel: {[member.name for member in channel_members]}
+=============================================================
+""")
+
             audio_files = [file for file in os.listdir("songs") if file.endswith((".mp3", ".wav"))]
 
             if not audio_files:
@@ -214,6 +222,12 @@ Voice channel {target_voice_channel.name} is empty. Moving to the next channel.
 
             random.shuffle(audio_files)
             random_audio_file = audio_files.pop(0)
+            print(f"""
+=============================================================
+Playing song: {random_audio_file}
+=============================================================
+""")
+            
             audio_file_path = os.path.join("songs", random_audio_file)
 
             audio = AudioSegment.from_mp3(audio_file_path)
@@ -247,10 +261,10 @@ Waiting for 5 minutes in the channel after playing the song.
                 voice_client = await wait_channel.connect()
                 print(f"""
 =============================================================
-Bot is in {wait_channel.name}. Waiting for 5 minutes.
+Bot is in {wait_channel.name}. Waiting for 5 minutes.  
 =============================================================
 """)
-                await asyncio.sleep(300) 
+                await asyncio.sleep(300)
 
         except discord.errors.ConnectionClosed as e:
             print(f"Disconnected from voice with error: {e}")
