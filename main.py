@@ -122,7 +122,7 @@ profile_pictures = ["./pics/03mouche.jpeg", "./pics/08pied-bouche.png", "./pics/
 
 current_index = 0
 
-@tasks.loop(hours=4)
+@tasks.loop(hours=6)
 async def change_bot_identity():
     global current_index 
 
@@ -253,7 +253,7 @@ Playing song: {random_audio_file}
 Waiting for 5 minutes in the channel after playing the song.
 =============================================================
 """)
-            await asyncio.sleep(300)
+            await asyncio.sleep(600)
 
             wait_channel = bot.get_channel(wait_channel_id)
             if wait_channel:
@@ -265,7 +265,7 @@ Waiting for 5 minutes in the channel after playing the song.
 Bot is in {wait_channel.name}. Waiting for 5 minutes.  
 =============================================================
 """)
-                await asyncio.sleep(300)
+                await asyncio.sleep(600)
 
         except discord.errors.ConnectionClosed as e:
             print(f"Disconnected from voice with error: {e}")
