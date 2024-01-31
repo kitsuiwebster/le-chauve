@@ -113,12 +113,12 @@ async def on_ready():
 
 
 
-bot_names = ["LA MOUCHE", "LE PIED-BOUCHE", "LA BULLE", "LE COUPE-JARRET", "LE SOFTEUR", "LE SUPPOSITOIRE", "LE STRING", "L'EGIRL", "LE PAGO", "LE NABOT", 
-             "LE FRÈRE", "LE NABUCHODONOSOR", "LA NOUILLE", "LE MALOTRU", "LA BÊTE", "LA FLAQUE"]
-profile_pictures = ["./pics/03mouche.jpeg", "./pics/08pied-bouche.png", "./pics/bulle.png", "./pics/06coupe-jarret.jpeg", "./pics/09softeur.jpeg",
+bot_names = ["LA FLAQUE","LA NOUILLE",  "LA MOUCHE", "LE PIED-BOUCHE", "LA BULLE", "LE COUPE-JARRET", "LE SOFTEUR", "LE SUPPOSITOIRE", "LE STRING", "L'EGIRL", "LE PAGO",
+             "LE NABOT", "LE FRÈRE", "LE NABUCHODONOSOR", "LE MALOTRU", "LA BÊTE"]
+profile_pictures = ["./pics/flaque", "./pics/nouille.png", "./pics/03mouche.jpeg", "./pics/08pied-bouche.png", "./pics/bulle.png", "./pics/06coupe-jarret.jpeg", "./pics/09softeur.jpeg",
                     "./pics/04suppositoire.jpeg", "./pics/00string.png", "./pics/01egirl.jpeg",
                     "./pics/02pago.jpeg", "./pics/07nabot.jpeg", 
-                    "./pics/10frere.png", "./pics/nabu.png", "./pics/nouille.png", "./pics/malotru.png", "./pics/05bete.png", "./pics/flaque"]
+                    "./pics/10frere.png", "./pics/nabu.png", "./pics/malotru.png", "./pics/05bete.png"]
 
 current_index = 0
 
@@ -250,7 +250,7 @@ Playing song: {random_audio_file}
 
             print("""
 =============================================================
-Waiting for 5 minutes in the channel after playing the song.
+Waiting for 10 minutes in the channel after playing the song.
 =============================================================
 """)
             await asyncio.sleep(600)
@@ -262,7 +262,7 @@ Waiting for 5 minutes in the channel after playing the song.
                 voice_client = await wait_channel.connect()
                 print(f"""
 =============================================================
-Bot is in {wait_channel.name}. Waiting for 5 minutes.  
+Bot is in {wait_channel.name}. Waiting for 10 minutes.  
 =============================================================
 """)
                 await asyncio.sleep(600)
