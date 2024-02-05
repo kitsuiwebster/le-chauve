@@ -113,10 +113,10 @@ async def on_ready():
 
 
 
-bot_names = ["LE SUPPOSITOIRE", "LE COUPE-JARRET", "LE SOFTEUR", "LA FLAQUE", "LA BULLE", "LA NOUILLE",  "LA MOUCHE", "LE PIED-BOUCHE", "LE STRING", "L'EGIRL", "LE PAGO",
+bot_names = ["LA MOUCHE", "LE SUPPOSITOIRE", "LE COUPE-JARRET", "LE SOFTEUR", "LA FLAQUE", "LA BULLE", "LA NOUILLE",  "LE PIED-BOUCHE", "LE STRING", "L'EGIRL", "LE PAGO",
              "LE NABOT", "LE FRÈRE", "LE NABUCHODONOSOR", "LE MALOTRU", "LA BÊTE"]
-profile_pictures = ["./pics/04suppositoire.jpeg", "./pics/06coupe-jarret.jpeg", "./pics/09softeur.jpeg", "./pics/flaque.png",
-                    "./pics/bulle.png", "./pics/nouille.png", "./pics/03mouche.jpeg", "./pics/08pied-bouche.png",
+profile_pictures = ["./pics/03mouche.jpeg", "./pics/04suppositoire.jpeg", "./pics/06coupe-jarret.jpeg", "./pics/09softeur.jpeg", "./pics/flaque.png",
+                    "./pics/bulle.png", "./pics/nouille.png", "./pics/08pied-bouche.png",
                     "./pics/00string.png", "./pics/01egirl.jpeg",
                     "./pics/02pago.jpeg", "./pics/07nabot.jpeg", 
                     "./pics/10frere.png", "./pics/nabu.png", "./pics/malotru.png", "./pics/05bete.png"]
@@ -251,10 +251,10 @@ Playing song: {random_audio_file}
 
             print("""
 =============================================================
-Waiting for 10 minutes in the channel after playing the song.
+Waiting for 7.5 minutes in the channel after playing the song.
 =============================================================
 """)
-            await asyncio.sleep(600)
+            await asyncio.sleep(450)
 
             wait_channel = bot.get_channel(wait_channel_id)
             if wait_channel:
@@ -263,10 +263,10 @@ Waiting for 10 minutes in the channel after playing the song.
                 voice_client = await wait_channel.connect()
                 print(f"""
 =============================================================
-Bot is in {wait_channel.name}. Waiting for 10 minutes.  
+Bot is in {wait_channel.name}. Waiting for 7.5 minutes.  
 =============================================================
 """)
-                await asyncio.sleep(600)
+                await asyncio.sleep(450)
 
         except discord.errors.ConnectionClosed as e:
             print(f"Disconnected from voice with error: {e}")
