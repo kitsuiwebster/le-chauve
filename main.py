@@ -251,10 +251,10 @@ Playing song: {random_audio_file}
 
             print("""
 =============================================================
-Waiting for 7.5 minutes in the channel after playing the song.
+Waiting for 10 minutes in the channel after playing the song.
 =============================================================
 """)
-            await asyncio.sleep(450)
+            await asyncio.sleep(600)
 
             wait_channel = bot.get_channel(wait_channel_id)
             if wait_channel:
@@ -263,10 +263,10 @@ Waiting for 7.5 minutes in the channel after playing the song.
                 voice_client = await wait_channel.connect()
                 print(f"""
 =============================================================
-Bot is in {wait_channel.name}. Waiting for 7.5 minutes.  
+Bot is in {wait_channel.name}. Waiting for 10 minutes.  
 =============================================================
 """)
-                await asyncio.sleep(450)
+                await asyncio.sleep(600)
 
         except discord.errors.ConnectionClosed as e:
             print(f"Disconnected from voice with error: {e}")
