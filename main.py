@@ -113,16 +113,17 @@ async def on_ready():
 
 
 
-bot_names = ["LA MOUCHE", "LE SUPPOSITOIRE", "LE COUPE-JARRET", "LE SOFTEUR", "LA FLAQUE", "LA BULLE", "LA NOUILLE",  "LE PIED-BOUCHE",
+bot_names = ["LA WI-FI", "LE FRÈRE", "LA MOUCHE", "LE SUPPOSITOIRE", "LE COUPE-JARRET", "LE SOFTEUR",
+             "LA FLAQUE", "LA BULLE", "LA NOUILLE",  "LE PIED-BOUCHE",
              "LE STRING", "L'EGIRL", "LE PAGO",
-             "LE NABOT", "LE FRÈRE", "LE NABUCHODONOSOR", "LE MALOTRU", "LA BÊTE", "LE COBEAU", "L'ÉBOUEUR", "LA WI-FI", "LA POUTRE"]
-profile_pictures = ["./pics/03mouche.jpeg", "./pics/04suppositoire.jpeg", "./pics/06coupe-jarret.jpeg",
+             "LE NABOT", "LE NABUCHODONOSOR", "LE MALOTRU", "LA BÊTE", "LE COBEAU", "L'ÉBOUEUR", "LA POUTRE"]
+profile_pictures = ["./pics/wifi.png", "./pics/frere.png", "./pics/03mouche.jpeg", "./pics/04suppositoire.jpeg", "./pics/06coupe-jarret.jpeg",
                     "./pics/09softeur.jpeg", "./pics/flaque.png",
                     "./pics/bulle.png", "./pics/nouille.png", "./pics/08pied-bouche.png",
                     "./pics/00string.png", "./pics/egirl.jpeg",
                     "./pics/02pago.jpeg", "./pics/07nabot.jpeg", 
-                    "./pics/frere.png", "./pics/nabu.png", "./pics/malotru.png", "./pics/05bete.png", "./pics/corbeau.png",
-                    "./pics/eboueur.png", "./pics/wifi.png", "./pics/poutre.jpeg"]
+                    "./pics/nabu.png", "./pics/malotru.png", "./pics/05bete.png", "./pics/corbeau.png",
+                    "./pics/eboueur.png", "./pics/poutre.jpeg"]
 
 current_index = 0
 
