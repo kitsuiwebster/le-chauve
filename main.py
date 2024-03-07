@@ -127,7 +127,7 @@ profile_pictures = ["./pics/wifi.png", "./pics/goat.jpeg" "./pics/frere.png", ".
 
 current_index = 0
 
-@tasks.loop(hours=6)
+@tasks.loop(hours=10)
 async def change_bot_identity():
     global current_index 
 
