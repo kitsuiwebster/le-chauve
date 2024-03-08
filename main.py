@@ -113,11 +113,11 @@ async def on_ready():
 
 
 
-bot_names = ["LA WI-FI", "LE GOAT", "LE FRÈRE", "LA MOUCHE", "LE SUPPOSITOIRE", "LE COUPE-JARRET", "LE SOFTEUR",
+bot_names = ["LE GOAT", "LA WI-FI", "LE FRÈRE", "LA MOUCHE", "LE SUPPOSITOIRE", "LE COUPE-JARRET", "LE SOFTEUR",
              "LA FLAQUE", "LA BULLE", "LA NOUILLE",  "LE PIED-BOUCHE",
              "LE STRING", "L'EGIRL", "LE PAGO",
              "LE NABOT", "LE NABUCHODONOSOR", "LE MALOTRU", "LA BÊTE", "LE COBEAU", "L'ÉBOUEUR", "LA POUTRE"]
-profile_pictures = ["./pics/wifi.png", "./pics/goat.jpeg" "./pics/frere.png", "./pics/03mouche.jpeg", "./pics/04suppositoire.jpeg", "./pics/06coupe-jarret.jpeg",
+profile_pictures = ["./pics/goat.jpeg", "./pics/wifi.png", "./pics/frere.png", "./pics/03mouche.jpeg", "./pics/04suppositoire.jpeg", "./pics/06coupe-jarret.jpeg",
                     "./pics/09softeur.jpeg", "./pics/flaque.png",
                     "./pics/bulle.png", "./pics/nouille.png", "./pics/08pied-bouche.png",
                     "./pics/00string.png", "./pics/egirl.jpeg",
@@ -127,7 +127,7 @@ profile_pictures = ["./pics/wifi.png", "./pics/goat.jpeg" "./pics/frere.png", ".
 
 current_index = 0
 
-@tasks.loop(hours=10)
+@tasks.loop(hours=6)
 async def change_bot_identity():
     global current_index 
 
