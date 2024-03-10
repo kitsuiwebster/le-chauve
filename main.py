@@ -113,17 +113,16 @@ async def on_ready():
 
 
 
-bot_names = ["LE GOAT", "LA WI-FI", "LE FRÈRE", "LA MOUCHE", "LE SUPPOSITOIRE", "LE COUPE-JARRET", "LE SOFTEUR",
+bot_names = ["LE COBEAU", "L'ÉBOUEUR", "LA POUTRE", "LE GOAT", "LA WI-FI", "LE FRÈRE", "LA MOUCHE", "LE SUPPOSITOIRE", "LE COUPE-JARRET", "LE SOFTEUR",
              "LA FLAQUE", "LA BULLE", "LA NOUILLE",  "LE PIED-BOUCHE",
              "LE STRING", "L'EGIRL", "LE PAGO",
-             "LE NABOT", "LE NABUCHODONOSOR", "LE MALOTRU", "LA BÊTE", "LE COBEAU", "L'ÉBOUEUR", "LA POUTRE"]
-profile_pictures = ["./pics/goat.jpeg", "./pics/wifi.png", "./pics/frere.png", "./pics/03mouche.jpeg", "./pics/04suppositoire.jpeg", "./pics/06coupe-jarret.jpeg",
+             "LE NABOT", "LE NABUCHODONOSOR", "LE MALOTRU", "LA BÊTE"]
+profile_pictures = ["./pics/corbeau.png", "./pics/eboueur.png", "./pics/poutre.jpeg", "./pics/goat.jpeg", "./pics/wifi.png", "./pics/frere.png", "./pics/03mouche.jpeg", "./pics/04suppositoire.jpeg", "./pics/06coupe-jarret.jpeg",
                     "./pics/09softeur.jpeg", "./pics/flaque.png",
                     "./pics/bulle.png", "./pics/nouille.png", "./pics/08pied-bouche.png",
                     "./pics/00string.png", "./pics/egirl.jpeg",
                     "./pics/02pago.jpeg", "./pics/07nabot.jpeg", 
-                    "./pics/nabu.png", "./pics/malotru.png", "./pics/05bete.png", "./pics/corbeau.png",
-                    "./pics/eboueur.png", "./pics/poutre.jpeg"]
+                    "./pics/nabu.png", "./pics/malotru.png", "./pics/05bete.png"]
 
 current_index = 0
 
@@ -170,6 +169,8 @@ Bot profile picture changed successfully
 async def play_random_song():
     global voice_client
 
+    ignored_user_id = 1161683957440589976
+
     channel_ids = [534010128773414926, 811683007290146858, 1018098145420390410, 880881683749015622,
                    530012749066010657, 534010172587114508, 1017001428524486686, 1150149299028635731]
 
@@ -201,7 +202,7 @@ async def play_random_song():
                 await voice_client.disconnect()
             voice_client = await target_voice_channel.connect()
 
-            channel_members = [member for member in target_voice_channel.members if member != bot.user]
+            channel_members = [member for member in target_voice_channel.members if member.id != ignored_user_id and member != bot.user]
             if len(channel_members) == 0:
                 print(f"""
 =============================================================
