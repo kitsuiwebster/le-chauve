@@ -113,7 +113,7 @@ async def on_ready():
 
 
 
-bot_names = ["LE COBEAU", "L'ÉBOUEUR", "LA POUTRE", "LE GOAT", "LA WI-FI", "LE FRÈRE", "LA MOUCHE", "LE SUPPOSITOIRE", "LE COUPE-JARRET", "LE SOFTEUR",
+bot_names = ["LE CORBEAU", "L'ÉBOUEUR", "LA POUTRE", "LE GOAT", "LA WI-FI", "LE FRÈRE", "LA MOUCHE", "LE SUPPOSITOIRE", "LE COUPE-JARRET", "LE SOFTEUR",
              "LA FLAQUE", "LA BULLE", "LA NOUILLE",  "LE PIED-BOUCHE",
              "LE STRING", "L'EGIRL", "LE PAGO",
              "LE NABOT", "LE NABUCHODONOSOR", "LE MALOTRU", "LA BÊTE"]
