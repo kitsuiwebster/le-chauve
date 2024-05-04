@@ -113,12 +113,13 @@ async def on_ready():
 
 
 
-bot_names = ["LE GOAT", "LA WI-FI", "LE FRÈRE", "LA MOUCHE", "LE SUPPOSITOIRE", "LE COUPE-JARRET", "LE SOFTEUR",
+bot_names = ["LE SOFTEUR", "LE GOAT", "LA WI-FI", "LE FRÈRE", "LA MOUCHE", "LE SUPPOSITOIRE", "LE COUPE-JARRET", 
              "LA FLAQUE", "LA BULLE", "LA NOUILLE",  "LE PIED-BOUCHE",
              "LE STRING", "L'EGIRL", "LE PAGO",
              "LE NABOT", "LE NABUCHODONOSOR", "LE MALOTRU", "LA BÊTE", "LE CORBEAU", "L'ÉBOUEUR", "LA POUTRE"]
-profile_pictures = ["./pics/goat.jpeg", "./pics/wifi.png", "./pics/frere.png", "./pics/03mouche.jpeg", "./pics/04suppositoire.jpeg", "./pics/06coupe-jarret.jpeg",
-                    "./pics/09softeur.jpeg", "./pics/flaque.png",
+profile_pictures = ["./pics/09softeur.jpeg", "./pics/goat.jpeg", "./pics/wifi.png", "./pics/frere.png", "./pics/03mouche.jpeg",
+                    "./pics/04suppositoire.jpeg", "./pics/06coupe-jarret.jpeg",
+                    "./pics/flaque.png",
                     "./pics/bulle.png", "./pics/nouille.png", "./pics/08pied-bouche.png",
                     "./pics/00string.png", "./pics/egirl.jpeg",
                     "./pics/02pago.jpeg", "./pics/07nabot.jpeg", 
@@ -172,7 +173,7 @@ async def play_random_song():
     ignored_user_id = 1161683957440589976
 
     channel_ids = [534010128773414926, 811683007290146858, 1018098145420390410, 880881683749015622,
-                   530012749066010657, 534010172587114508, 1017001428524486686, 1150149299028635731]
+                   530012749066010657, 534010172587114508, 1017001428524486686, 1150149299028635731, 1216106779138850976]
 
     text_channel_id = 1199479426497380423
     text_channel = bot.get_channel(text_channel_id)
