@@ -247,10 +247,11 @@ user_ids = [530012026114670593, 1163037440852893756, 447164227321331715, 5029001
             211868111844933633, 332522721269383169, 256128167041957888, 720003437861011578, 404065631386992660, 539142544098066446,
             257458706738839553, 531874992141500416, 248855519035523085, 300368857346998287, 259364875770265600, ] 
 messages = ["https://tenor.com/view/geneva-kitsui-koni-kitsui-koni-mountain-gif-98006767313222820",
-            "👀", "Ouais de ouf",
+            "👀",
+            "https://drive.google.com/uc?id=1rmy6SojTegp5NkYMX_pohtwzZQm4zpHi&export=download",
+            "Ouais de ouf",
             "https://tenor.com/view/pago-kitsui-koni-kitsui-koni-vcg-gif-5542109184676738895",
             "https://www.youtube.com/watch?v=r3edq2MiH3o&list=PLke_eeiQwDHNNPW2QwBKf8J4-rO59m6ha&index=8",
-            "https://drive.google.com/uc?id=1rmy6SojTegp5NkYMX_pohtwzZQm4zpHi&export=download",
             "https://drive.google.com/uc?id=1K9XQK8fmIW1sKOwFWKzrln1QfgznnpxU&export=download",
             "https://drive.google.com/uc?id=1CJZj45lzULSR4qXq4Ls3uJANPMHro9_Q&export=download",
             ]
