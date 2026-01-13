@@ -22,7 +22,6 @@ class SoundCommandsCog(commands.Cog):
     def load_sound_files(self):
         """Load list of available sound files"""
         if not os.path.exists(self.sounds_dir):
-            print(f"Warning: {self.sounds_dir} directory not found")
             return
 
         self.sound_files = [
@@ -30,7 +29,6 @@ class SoundCommandsCog(commands.Cog):
             if f.endswith((".mp3", ".wav"))
         ]
         self.sound_files.sort()
-        print(f"Loaded {len(self.sound_files)} sound files")
 
     async def play_sound_in_voice(self, interaction: discord.Interaction, sound_file: str):
         """Play a specific sound in the user's voice channel and reset the cycle"""
@@ -78,11 +76,6 @@ class SoundCommandsCog(commands.Cog):
             await asyncio.sleep(audio_duration)
 
             # Wait 20 minutes in the channel (same as normal cycle)
-            print(f"""
-=============================================================
-Waiting for {WAIT_AFTER_SONG // 60} minutes in the channel after command sound.
-=============================================================
-""")
             await asyncio.sleep(WAIT_AFTER_SONG)
 
             # Move to wait channel
@@ -91,11 +84,6 @@ Waiting for {WAIT_AFTER_SONG // 60} minutes in the channel after command sound.
                 if music_cog.voice_client:
                     await music_cog.voice_client.disconnect()
                 music_cog.voice_client = await wait_channel.connect()
-                print(f"""
-=============================================================
-Bot is in wait channel after command. Waiting for 30 minutes.
-=============================================================
-""")
                 await asyncio.sleep(1800)
 
             # Signal to restart the normal cycle
@@ -103,7 +91,6 @@ Bot is in wait channel after command. Waiting for 30 minutes.
 
         except Exception as e:
             await interaction.followup.send(f"❌ Erreur: {str(e)}", ephemeral=True)
-            print(f"Error in sound command: {e}")
 
     async def sound_autocomplete(
         self,
@@ -142,8 +129,7 @@ async def setup(bot):
     # Sync commands with Discord
     try:
         await bot.tree.sync()
-        print("Slash commands synced with Discord")
     except Exception as e:
-        print(f"Error syncing commands: {e}")
+        pass
 
     return cog

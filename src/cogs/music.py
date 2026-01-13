@@ -9,7 +9,7 @@ from discord.ext import commands
 from pydub import AudioSegment
 
 from src.utils.config import (
-    VOICE_CHANNEL_IDS,
+    VOICE_CHANNEL_IDS as channel_ids,
     TEXT_CHANNEL_ID,
     WAIT_CHANNEL_ID,
     IGNORED_USER_ID,
@@ -43,16 +43,10 @@ class MusicCog(commands.Cog):
             # Check if we should restart the cycle
             if self.should_restart:
                 self.should_restart = False
-                print("Cycle restarted by command")
                 continue
             try:
                 # Check if too many empty channels encountered
                 if empty_channel_count >= EMPTY_CHANNEL_THRESHOLD:
-                    print(f"""
-=============================================================
-{EMPTY_CHANNEL_THRESHOLD} empty channels encountered. Disconnecting and waiting for 30 minutes.
-=============================================================
-""")
                     if self.voice_client:
                         await self.voice_client.disconnect()
                     await asyncio.sleep(PAUSE_AFTER_EMPTY_CHANNELS)
@@ -60,7 +54,7 @@ class MusicCog(commands.Cog):
                     continue
 
                 # Choose random voice channel
-                target_voice_channel_id = random.choice(VOICE_CHANNEL_IDS)
+                target_voice_channel_id = random.choice(channel_ids)
                 target_voice_channel = self.bot.get_channel(target_voice_channel_id)
 
                 # Connect to the channel
@@ -75,22 +69,10 @@ class MusicCog(commands.Cog):
                 ]
 
                 if len(channel_members) == 0:
-                    print(f"""
-=============================================================
-Voice channel {target_voice_channel.name} is empty. Moving to the next channel.
-=============================================================
-""")
                     empty_channel_count += 1
                     continue
                 else:
                     empty_channel_count = 0
-
-                print(f"""
-=============================================================
-Currently in voice channel: {target_voice_channel.name}
-Members in voice channel: {[member.name for member in channel_members]}
-=============================================================
-""")
 
                 # Get audio files
                 audio_files = [
@@ -98,17 +80,11 @@ Members in voice channel: {[member.name for member in channel_members]}
                     if file.endswith((".mp3", ".wav"))
                 ]
                 if not audio_files:
-                    print("No more sounds in the 'sounds' directory.")
                     break
 
                 # Play random song
                 random.shuffle(audio_files)
                 random_audio_file = audio_files.pop(0)
-                print(f"""
-=============================================================
-Playing song: {random_audio_file}
-=============================================================
-""")
 
                 audio_file_path = os.path.join("sounds", random_audio_file)
                 audio = AudioSegment.from_mp3(audio_file_path)
@@ -121,21 +97,13 @@ Playing song: {random_audio_file}
                         song_title = self.song_titles.get(random_audio_file, 'Unknown')
                         if text_channel:
                             await text_channel.send(f'Vous écoutez désormais: {song_title}')
-                    else:
-                        print("Bot is already playing.")
                 except (ConnectionClosed, ClientException) as e:
-                    print(f"Error occurred: {e}")
                     break
 
                 # Wait for song to finish
                 await asyncio.sleep(audio_duration)
 
                 # Wait after song
-                print(f"""
-=============================================================
-Waiting for {WAIT_AFTER_SONG // 60} minutes in the channel after playing the song.
-=============================================================
-""")
                 await asyncio.sleep(WAIT_AFTER_SONG)
 
                 # Move to wait channel
@@ -144,17 +112,10 @@ Waiting for {WAIT_AFTER_SONG // 60} minutes in the channel after playing the son
                     if self.voice_client:
                         await self.voice_client.disconnect()
                     self.voice_client = await wait_channel.connect()
-                    print(f"""
-=============================================================
-Bot is in {wait_channel.name}. Waiting for {WAIT_IN_WAIT_CHANNEL // 60} minutes.
-=============================================================
-""")
                     await asyncio.sleep(WAIT_IN_WAIT_CHANNEL)
 
             except discord.errors.ConnectionClosed as e:
-                print(f"Disconnected from voice with error: {e}")
-                print("Attempting to reconnect...")
-                target_voice_channel_id = random.choice(VOICE_CHANNEL_IDS)
+                target_voice_channel_id = random.choice(channel_ids)
                 target_voice_channel = self.bot.get_channel(target_voice_channel_id)
                 self.voice_client = await target_voice_channel.connect()
                 continue

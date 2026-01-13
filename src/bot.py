@@ -58,7 +58,6 @@ class RomeoBot(commands.Bot):
             if channel:
                 channel_names.append(channel.name)
 
-        print(f"Voice channels: {', '.join(channel_names)}")
 
         # Start status change task
         status_cog = self.get_cog('StatusCog')
