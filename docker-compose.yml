@@ -1,0 +1,12 @@
+services:
+  romeo-bot:
+    build: .
+    container_name: romeo-bot
+    restart: unless-stopped
+    volumes:
+      - ./songs:/app/songs
+      - ./pics:/app/pics
+    env_file:
+      - .env
+    environment:
+      - TZ=Europe/Paris

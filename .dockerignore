@@ -1,0 +1,15 @@
+__pycache__
+*.pyc
+*.pyo
+.git
+.gitignore
+.gitattributes
+.dockerignore
+run_bot.py
+README.md
+.vscode
+.idea
+*.swp
+*.swo
+.DS_Store
+Thumbs.db

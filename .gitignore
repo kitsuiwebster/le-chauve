@@ -1,3 +1,6 @@
 .env
+
+# Legacy files
+run_bot.py
 __pycache__/
 test/
