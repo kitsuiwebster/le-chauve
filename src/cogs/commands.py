@@ -91,7 +91,7 @@ class SoundCommandsCog(commands.Cog):
                 os.path.splitext(sound_file)[0].replace('_', ' ').title()
             )
             log_sound_play(sound_display, source='command')
-            await interaction.response.send_message(f"🎵 Lecture de: **{sound_display}**", ephemeral=False)
+            await interaction.response.send_message(f"{interaction.user.display_name} a lancé {sound_display}", ephemeral=False)
 
             # Wait for sound to finish playing
             await asyncio.sleep(audio_duration)
