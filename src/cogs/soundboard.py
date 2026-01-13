@@ -1,4 +1,4 @@
-"""Music cog for playing songs in voice channels"""
+"""Soundboard cog for playing sounds in voice channels"""
 
 import os
 import random
@@ -13,29 +13,38 @@ from src.utils.config import (
     TEXT_CHANNEL_ID,
     WAIT_CHANNEL_ID,
     IGNORED_USER_ID,
-    WAIT_AFTER_SONG,
+    WAIT_AFTER_SOUND,
     WAIT_IN_WAIT_CHANNEL,
     EMPTY_CHANNEL_THRESHOLD,
     PAUSE_AFTER_EMPTY_CHANNELS
 )
+from src.utils.logger import (
+    log_voice_join,
+    log_voice_leave,
+    log_sound_play,
+    log_empty_channel,
+    log_waiting,
+    log_cycle_restart,
+    log_error
+)
 
 
-class MusicCog(commands.Cog):
-    """Handle music playback functionality"""
+class SoundboardCog(commands.Cog):
+    """Handle soundboard playback functionality"""
 
-    def __init__(self, bot, song_titles):
+    def __init__(self, bot, sound_titles):
         self.bot = bot
-        self.song_titles = song_titles
+        self.sound_titles = sound_titles
         self.voice_client = None
         self.current_task = None
         self.should_restart = False
 
     def restart_cycle(self):
-        """Signal to restart the music cycle"""
+        """Signal to restart the soundboard cycle"""
         self.should_restart = True
 
-    async def play_random_song(self):
-        """Main loop for playing random songs in voice channels"""
+    async def play_random_sound(self):
+        """Main loop for playing random sounds in voice channels"""
         text_channel = self.bot.get_channel(TEXT_CHANNEL_ID)
         empty_channel_count = 0
 
@@ -43,6 +52,7 @@ class MusicCog(commands.Cog):
             # Check if we should restart the cycle
             if self.should_restart:
                 self.should_restart = False
+                log_cycle_restart()
                 continue
             try:
                 # Check if too many empty channels encountered
@@ -69,10 +79,12 @@ class MusicCog(commands.Cog):
                 ]
 
                 if len(channel_members) == 0:
+                    log_empty_channel(target_voice_channel.name)
                     empty_channel_count += 1
                     continue
                 else:
                     empty_channel_count = 0
+                    log_voice_join(target_voice_channel.name, len(channel_members))
 
                 # Get audio files
                 audio_files = [
@@ -82,11 +94,11 @@ class MusicCog(commands.Cog):
                 if not audio_files:
                     break
 
-                # Play random song
+                # Play random sound
                 random.shuffle(audio_files)
-                random_audio_file = audio_files.pop(0)
+                random_sound_file = audio_files.pop(0)
 
-                audio_file_path = os.path.join("sounds", random_audio_file)
+                audio_file_path = os.path.join("sounds", random_sound_file)
                 audio = AudioSegment.from_mp3(audio_file_path)
                 audio_duration = len(audio) / 1000
                 audio_source = FFmpegPCMAudio(executable="ffmpeg", source=audio_file_path)
@@ -94,24 +106,30 @@ class MusicCog(commands.Cog):
                 try:
                     if not self.voice_client.is_playing():
                         self.voice_client.play(audio_source)
-                        song_title = self.song_titles.get(random_audio_file, 'Unknown')
+                        sound_title = self.sound_titles.get(random_sound_file, 'Unknown')
+                        log_sound_play(sound_title, source='auto')
                         if text_channel:
-                            await text_channel.send(f'Vous écoutez désormais: {song_title}')
+                            await text_channel.send(f'Vous écoutez désormais: {sound_title}')
                 except (ConnectionClosed, ClientException) as e:
+                    log_error(f"Erreur de lecture: {e}")
                     break
 
-                # Wait for song to finish
+                # Wait for sound to finish
                 await asyncio.sleep(audio_duration)
 
-                # Wait after song
-                await asyncio.sleep(WAIT_AFTER_SONG)
+                # Wait after sound
+                log_waiting(WAIT_AFTER_SOUND // 60, target_voice_channel.name)
+                await asyncio.sleep(WAIT_AFTER_SOUND)
 
                 # Move to wait channel
                 wait_channel = self.bot.get_channel(WAIT_CHANNEL_ID)
                 if wait_channel:
                     if self.voice_client:
+                        log_voice_leave(target_voice_channel.name)
                         await self.voice_client.disconnect()
                     self.voice_client = await wait_channel.connect()
+                    log_voice_join(wait_channel.name, 0)
+                    log_waiting(WAIT_IN_WAIT_CHANNEL // 60, wait_channel.name)
                     await asyncio.sleep(WAIT_IN_WAIT_CHANNEL)
 
             except discord.errors.ConnectionClosed as e:
@@ -121,8 +139,8 @@ class MusicCog(commands.Cog):
                 continue
 
 
-async def setup(bot, song_titles):
+async def setup(bot, sound_titles):
     """Setup function to add the cog"""
-    cog = MusicCog(bot, song_titles)
+    cog = SoundboardCog(bot, sound_titles)
     await bot.add_cog(cog)
     return cog

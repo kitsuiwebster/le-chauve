@@ -6,8 +6,8 @@ from dotenv import load_dotenv
 # Load environment variables
 load_dotenv()
 
-# Import song titles
-from config.song_titles import song_titles
+# Import sound titles
+from config.sound_titles import sound_titles
 
 # Import bot factory
 from src.bot import create_bot
@@ -21,7 +21,7 @@ def main():
         raise ValueError("DISCORD_BOT_TOKEN not found in environment variables")
 
     # Create and run bot
-    bot = create_bot(song_titles)
+    bot = create_bot(sound_titles)
     bot.run(bot_token)
 
 

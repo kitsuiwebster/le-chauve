@@ -1,6 +1,6 @@
 # Romeo Bot
 
-Un bot Discord musical qui joue des chansons aléatoires dans les canaux vocaux.
+Un bot Discord soundboard qui joue des sons aléatoires dans les canaux vocaux.
 
 ## Structure du projet
 
@@ -9,14 +9,15 @@ romeo-bot/
 ├── src/
 │   ├── bot.py              # Initialisation du bot
 │   ├── cogs/
-│   │   ├── commands.py     # Commandes (!next)
-│   │   ├── music.py        # Logique de lecture musicale
+│   │   ├── commands.py     # Commandes slash (/play)
+│   │   ├── soundboard.py   # Logique de lecture des sons
 │   │   └── status.py       # Gestion du statut du bot
 │   └── utils/
-│       └── config.py       # Configuration et constantes
+│       ├── config.py       # Configuration et constantes
+│       └── logger.py       # Système de logs colorés
 ├── config/
-│   └── song_titles.py      # Titres des chansons
-├── songs/                  # Fichiers MP3/WAV
+│   └── sound_titles.py     # Titres des sons
+├── sounds/                 # Fichiers MP3/WAV
 ├── pics/                   # Images de profil
 ├── main.py                 # Point d'entrée
 ├── requirements.txt        # Dépendances Python
@@ -63,12 +64,14 @@ Modifiez `src/utils/config.py` pour :
 
 ## Commandes
 
-- `!next` - Passe à la chanson suivante
+- `/play <son>` - Joue un son spécifique (avec autocomplete)
 
 ## Fonctionnalités
 
-- Lecture aléatoire de musique dans les canaux vocaux
+- Lecture aléatoire de sons dans les canaux vocaux
 - Rotation automatique entre les canaux
 - Détection de canaux vides
 - Notifications dans le canal texte
 - Changement de statut automatique
+- Commande slash avec autocomplete pour tous les sons
+- Logs colorés avec emojis

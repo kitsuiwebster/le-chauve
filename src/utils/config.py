@@ -23,7 +23,7 @@ WAIT_CHANNEL_ID = 1200530884831477841
 IGNORED_USER_ID = 1161683957440589976
 
 # Temps d'attente (en secondes)
-WAIT_AFTER_SONG = 1200  # 20 minutes
+WAIT_AFTER_SOUND = 1200  # 20 minutes
 WAIT_IN_WAIT_CHANNEL = 1800  # 30 minutes
 EMPTY_CHANNEL_THRESHOLD = 20  # Nombre de canaux vides avant pause
 PAUSE_AFTER_EMPTY_CHANNELS = 1800  # 30 minutes de pause

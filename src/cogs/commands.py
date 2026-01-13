@@ -8,7 +8,8 @@ from discord.ext import commands
 from discord import FFmpegPCMAudio
 from pydub import AudioSegment
 
-from src.utils.config import WAIT_AFTER_SONG, WAIT_CHANNEL_ID
+from src.utils.config import WAIT_AFTER_SOUND, WAIT_CHANNEL_ID
+from src.utils.logger import log_sound_play, log_slash_command_registered
 
 
 class SoundCommandsCog(commands.Cog):
@@ -44,23 +45,23 @@ class SoundCommandsCog(commands.Cog):
             await interaction.response.send_message(f"❌ Fichier introuvable: {sound_file}", ephemeral=True)
             return
 
-        # Get the music cog
-        music_cog = self.bot.get_cog('MusicCog')
-        if not music_cog:
-            await interaction.response.send_message("❌ Erreur: Music cog non trouvé", ephemeral=True)
+        # Get the soundboard cog
+        soundboard_cog = self.bot.get_cog('SoundboardCog')
+        if not soundboard_cog:
+            await interaction.response.send_message("❌ Erreur: Soundboard cog non trouvé", ephemeral=True)
             return
 
         try:
             # Check if bot is already in the user's voice channel
-            if music_cog.voice_client and music_cog.voice_client.channel == voice_channel:
+            if soundboard_cog.voice_client and soundboard_cog.voice_client.channel == voice_channel:
                 # Already in the same channel, just play the sound
                 pass
             else:
                 # Need to move to the user's channel
-                if music_cog.voice_client:
-                    await music_cog.voice_client.disconnect()
+                if soundboard_cog.voice_client:
+                    await soundboard_cog.voice_client.disconnect()
                 # Connect to user's voice channel
-                music_cog.voice_client = await voice_channel.connect()
+                soundboard_cog.voice_client = await voice_channel.connect()
 
             # Get audio duration
             audio = AudioSegment.from_mp3(sound_path)
@@ -68,26 +69,27 @@ class SoundCommandsCog(commands.Cog):
 
             # Play the sound
             audio_source = FFmpegPCMAudio(executable="ffmpeg", source=sound_path)
-            music_cog.voice_client.play(audio_source)
+            soundboard_cog.voice_client.play(audio_source)
 
+            log_sound_play(sound_file, source='command')
             await interaction.response.send_message(f"🎵 Lecture de: **{sound_file}**", ephemeral=False)
 
             # Wait for sound to finish playing
             await asyncio.sleep(audio_duration)
 
             # Wait 20 minutes in the channel (same as normal cycle)
-            await asyncio.sleep(WAIT_AFTER_SONG)
+            await asyncio.sleep(WAIT_AFTER_SOUND)
 
             # Move to wait channel
             wait_channel = self.bot.get_channel(WAIT_CHANNEL_ID)
             if wait_channel:
-                if music_cog.voice_client:
-                    await music_cog.voice_client.disconnect()
-                music_cog.voice_client = await wait_channel.connect()
+                if soundboard_cog.voice_client:
+                    await soundboard_cog.voice_client.disconnect()
+                soundboard_cog.voice_client = await wait_channel.connect()
                 await asyncio.sleep(1800)
 
             # Signal to restart the normal cycle
-            music_cog.restart_cycle()
+            soundboard_cog.restart_cycle()
 
         except Exception as e:
             await interaction.followup.send(f"❌ Erreur: {str(e)}", ephemeral=True)
@@ -129,6 +131,7 @@ async def setup(bot):
     # Sync commands with Discord
     try:
         await bot.tree.sync()
+        log_slash_command_registered(len(cog.sound_files))
     except Exception as e:
         pass
 

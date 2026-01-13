@@ -1,3 +1,3 @@
-song_titles = {
+sound_titles = {
     'oui': 'non',
 }
