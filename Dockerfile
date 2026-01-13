@@ -21,8 +21,7 @@ COPY .env .
 # Copy directories
 COPY src/ ./src/
 COPY config/ ./config/
-COPY songs/ ./songs/
-COPY pics/ ./pics/
+COPY sounds/ ./sounds/
 
 # Run the bot
 CMD ["python", "main.py"]

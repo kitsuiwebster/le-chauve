@@ -8,6 +8,7 @@ from dotenv import load_dotenv
 
 from src.cogs.music import setup as music_setup
 from src.cogs.status import setup as status_setup
+from src.cogs.commands import setup as commands_setup
 from src.utils.config import VOICE_CHANNEL_IDS
 
 # Load environment variables
@@ -39,6 +40,7 @@ class RomeoBot(commands.Bot):
         """Called when the bot is starting up"""
         # Load all cogs
         await status_setup(self)
+        await commands_setup(self)
         self.music_cog = await music_setup(self, self.song_titles)
 
     async def on_ready(self):

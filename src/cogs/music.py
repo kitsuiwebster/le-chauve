@@ -27,6 +27,12 @@ class MusicCog(commands.Cog):
         self.bot = bot
         self.song_titles = song_titles
         self.voice_client = None
+        self.current_task = None
+        self.should_restart = False
+
+    def restart_cycle(self):
+        """Signal to restart the music cycle"""
+        self.should_restart = True
 
     async def play_random_song(self):
         """Main loop for playing random songs in voice channels"""
@@ -34,6 +40,11 @@ class MusicCog(commands.Cog):
         empty_channel_count = 0
 
         while True:
+            # Check if we should restart the cycle
+            if self.should_restart:
+                self.should_restart = False
+                print("Cycle restarted by command")
+                continue
             try:
                 # Check if too many empty channels encountered
                 if empty_channel_count >= EMPTY_CHANNEL_THRESHOLD:
@@ -83,11 +94,11 @@ Members in voice channel: {[member.name for member in channel_members]}
 
                 # Get audio files
                 audio_files = [
-                    file for file in os.listdir("songs")
+                    file for file in os.listdir("sounds")
                     if file.endswith((".mp3", ".wav"))
                 ]
                 if not audio_files:
-                    print("No more songs in the 'songs' directory.")
+                    print("No more sounds in the 'sounds' directory.")
                     break
 
                 # Play random song
@@ -99,7 +110,7 @@ Playing song: {random_audio_file}
 =============================================================
 """)
 
-                audio_file_path = os.path.join("songs", random_audio_file)
+                audio_file_path = os.path.join("sounds", random_audio_file)
                 audio = AudioSegment.from_mp3(audio_file_path)
                 audio_duration = len(audio) / 1000
                 audio_source = FFmpegPCMAudio(executable="ffmpeg", source=audio_file_path)

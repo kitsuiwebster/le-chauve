@@ -4,8 +4,7 @@ services:
     container_name: romeo-bot
     restart: unless-stopped
     volumes:
-      - ./songs:/app/songs
-      - ./pics:/app/pics
+      - ./sounds:/app/sounds
     env_file:
       - .env
     environment:
