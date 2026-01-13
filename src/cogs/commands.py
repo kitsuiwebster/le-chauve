@@ -53,12 +53,16 @@ class SoundCommandsCog(commands.Cog):
             return
 
         try:
-            # Disconnect from current voice channel if any
-            if music_cog.voice_client:
-                await music_cog.voice_client.disconnect()
-
-            # Connect to user's voice channel
-            music_cog.voice_client = await voice_channel.connect()
+            # Check if bot is already in the user's voice channel
+            if music_cog.voice_client and music_cog.voice_client.channel == voice_channel:
+                # Already in the same channel, just play the sound
+                pass
+            else:
+                # Need to move to the user's channel
+                if music_cog.voice_client:
+                    await music_cog.voice_client.disconnect()
+                # Connect to user's voice channel
+                music_cog.voice_client = await voice_channel.connect()
 
             # Get audio duration
             audio = AudioSegment.from_mp3(sound_path)
