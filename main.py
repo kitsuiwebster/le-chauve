@@ -84,10 +84,8 @@ async def on_ready():
     print(f"""
 =============================================================
 {bot.user.name} is damn connected !!
-=============================================================          
+=============================================================
 """)
-    change_bot_identity.start()
-    send_private_message.start()
     global voice_client
     target_voice_channel_id = 1018098145420390410  
     target_voice_channel = bot.get_channel(target_voice_channel_id)
@@ -98,51 +96,6 @@ async def on_ready():
         print("Bot is connected to the voice channel and starting to play music.")
         await play_random_song()
     
-
-bot_names = ["LE SOFTEUR", "LE PAGO", "LA BÊTE", "LA MOUCHE", "LE SUPPOSITOIRE", "LE COUPE-JARRET", 
-             "LE NABUCHODONOSOR", "LA BULLE", "LA NOUILLE",  "LE PIED-BOUCHE", "LE CORBEAU", 
-             "LE STRING", "L'EGIRL", "LE GOAT", "LE FRÈRE", 
-             "LE NABOT", "LE MALOTRU", "L'ÉBOUEUR", "LA POUTRE", "LA FLAQUE"]
-profile_pictures = ["./pics/09softeur.jpeg", "./pics/02pago.png", "./pics/05bete.png", "./pics/03mouche.jpeg",
-                    "./pics/04suppositoire.jpeg", "./pics/06coupe-jarret.jpeg",
-                    "./pics/nabu.png", 
-                    "./pics/bulle.png", "./pics/nouille.png", "./pics/08pied-bouche.png", "./pics/corbeau.png", 
-                    "./pics/00string.png", "./pics/egirl.jpeg",
-                    "./pics/goat.jpeg", "./pics/frere.png", "./pics/07nabot.jpeg", 
-                    "./pics/malotru.png", "./pics/eboueur.png", "./pics/poutre.jpeg", "./pics/flaque.png"]
-
-current_index = 0
-
-@tasks.loop(hours=6)
-async def change_bot_identity():
-    global current_index
-    print("Starting the process to change bot's identity")
-    new_name = bot_names[current_index]
-    new_picture_path = profile_pictures[current_index]
-    print(f"""
-=============================================================
-Selected new name: {new_name}
-Selected new profile picture: {new_picture_path}
-=============================================================
-""")
-    try:
-        await bot.user.edit(username=new_name)
-        print(f"""
-=============================================================              
-Bot name changed to {new_name}
-=============================================================
-""")
-        with open(new_picture_path, 'rb') as img:
-            image_data = img.read()
-            await bot.user.edit(avatar=image_data)
-            print("""
-=============================================================                  
-Bot profile picture changed successfully
-=============================================================
-""")
-        current_index = (current_index + 1) % len(bot_names)
-    except Exception as e:
-        print(f"Error changing bot identity: {e}")
 
 
 async def play_random_song():
@@ -239,50 +192,6 @@ Bot is in {wait_channel.name}. Waiting for 10 minutes.
             target_voice_channel = bot.get_channel(target_voice_channel_id)
             voice_client = await target_voice_channel.connect()
             continue
-
-
-
-user_ids = [530012026114670593, 1163037440852893756, 447164227321331715, 502900113040212019, 694257248532299881, 435469813951889408, 
-            750289831719862334, 428264487754268672,
-            211868111844933633, 332522721269383169, 256128167041957888, 720003437861011578, 404065631386992660, 539142544098066446,
-            257458706738839553, 531874992141500416, 248855519035523085, 300368857346998287, 259364875770265600, ] 
-messages = ["https://tenor.com/view/geneva-kitsui-koni-kitsui-koni-mountain-gif-98006767313222820",
-            "👀",
-            "https://drive.google.com/uc?id=1rmy6SojTegp5NkYMX_pohtwzZQm4zpHi&export=download",
-            "Ouais de ouf",
-            "https://tenor.com/view/pago-kitsui-koni-kitsui-koni-vcg-gif-5542109184676738895",
-            "https://www.youtube.com/watch?v=r3edq2MiH3o&list=PLke_eeiQwDHNNPW2QwBKf8J4-rO59m6ha&index=8",
-            "https://drive.google.com/uc?id=1K9XQK8fmIW1sKOwFWKzrln1QfgznnpxU&export=download",
-            "https://drive.google.com/uc?id=1CJZj45lzULSR4qXq4Ls3uJANPMHro9_Q&export=download",
-            ]
-message_index = 0
-
-@tasks.loop(seconds=40000) 
-async def send_private_message():
-    global message_index
-    user_id = user_ids[message_index % len(user_ids)]
-    user = await bot.fetch_user(user_id)
-    if user:
-        try:
-            await user.send(messages[message_index])
-            print(f"""
-=============================================================
-Sent '{messages[message_index]}' to {user_id}
-=============================================================
-""")
-        except Exception as e:
-            print(f"""
-=============================================================
-Failed to send message to {user_id}: {e}
-=============================================================
-""")
-    message_index = 1 - message_index
-
-@send_private_message.before_loop
-async def before_send_private_message():
-    print("Waiting for bot to be ready...")
-    await bot.wait_until_ready()
-    print("Starting to send private messages.")
 
 
 
