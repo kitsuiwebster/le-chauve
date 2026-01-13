@@ -17,6 +17,20 @@ class SoundCommandsCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.sounds_dir = "sounds"
+        self.sound_files = []
+
+    def load_sound_files(self):
+        """Load list of available sound files"""
+        if not os.path.exists(self.sounds_dir):
+            print(f"Warning: {self.sounds_dir} directory not found")
+            return
+
+        self.sound_files = [
+            f for f in os.listdir(self.sounds_dir)
+            if f.endswith((".mp3", ".wav"))
+        ]
+        self.sound_files.sort()
+        print(f"Loaded {len(self.sound_files)} sound files")
 
     async def play_sound_in_voice(self, interaction: discord.Interaction, sound_file: str):
         """Play a specific sound in the user's voice channel and reset the cycle"""
@@ -87,50 +101,30 @@ Bot is in wait channel after command. Waiting for 30 minutes.
             await interaction.followup.send(f"❌ Erreur: {str(e)}", ephemeral=True)
             print(f"Error in sound command: {e}")
 
-    async def create_sound_commands(self):
-        """Dynamically create slash commands for each sound file"""
-        if not os.path.exists(self.sounds_dir):
-            print(f"Warning: {self.sounds_dir} directory not found")
-            return
-
-        sound_files = [
-            f for f in os.listdir(self.sounds_dir)
-            if f.endswith((".mp3", ".wav"))
+    async def sound_autocomplete(
+        self,
+        interaction: discord.Interaction,
+        current: str,
+    ) -> list[app_commands.Choice[str]]:
+        """Autocomplete for sound file selection"""
+        # Filter sounds based on current input
+        filtered = [
+            sound for sound in self.sound_files
+            if current.lower() in sound.lower()
         ]
 
-        for sound_file in sound_files:
-            # Create command name from filename (remove extension, make lowercase, replace spaces)
-            command_name = os.path.splitext(sound_file)[0].lower().replace(" ", "_").replace("-", "_")
+        # Return max 25 choices (Discord limit)
+        return [
+            app_commands.Choice(name=sound[:100], value=sound)
+            for sound in filtered[:25]
+        ]
 
-            # Remove special characters
-            command_name = ''.join(c for c in command_name if c.isalnum() or c == '_')
-
-            # Limit to 32 characters (Discord slash command limit)
-            if len(command_name) > 32:
-                command_name = command_name[:32]
-
-            # Skip if command name is invalid
-            if not command_name or command_name[0].isdigit():
-                print(f"Skipping invalid command name for: {sound_file}")
-                continue
-
-            # Create the slash command
-            async def sound_command_func(interaction: discord.Interaction, filename=sound_file):
-                await self.play_sound_in_voice(interaction, filename)
-
-            # Set proper attributes for the command
-            sound_command_func.__name__ = f"sound_{command_name}"
-
-            command = app_commands.Command(
-                name=command_name,
-                description=f"Jouer {sound_file[:50]}",
-                callback=sound_command_func
-            )
-
-            # Add command to the bot's tree
-            self.bot.tree.add_command(command)
-
-        print(f"Created {len(sound_files)} sound commands")
+    @app_commands.command(name="play", description="Jouer un son dans votre canal vocal")
+    @app_commands.describe(sound="Choisissez un son à jouer")
+    @app_commands.autocomplete(sound=sound_autocomplete)
+    async def play_sound(self, interaction: discord.Interaction, sound: str):
+        """Play a sound command"""
+        await self.play_sound_in_voice(interaction, sound)
 
 
 async def setup(bot):
@@ -138,8 +132,8 @@ async def setup(bot):
     cog = SoundCommandsCog(bot)
     await bot.add_cog(cog)
 
-    # Create sound commands
-    await cog.create_sound_commands()
+    # Load sound files
+    cog.load_sound_files()
 
     # Sync commands with Discord
     try:
