@@ -101,12 +101,20 @@ class SoundboardCog(commands.Cog):
                 audio_file_path = os.path.join("sounds", random_sound_file)
                 audio = AudioSegment.from_mp3(audio_file_path)
                 audio_duration = len(audio) / 1000
-                audio_source = FFmpegPCMAudio(executable="ffmpeg", source=audio_file_path)
+                audio_source = FFmpegPCMAudio(
+                    executable="ffmpeg",
+                    source=audio_file_path,
+                    options='-loglevel panic'
+                )
 
                 try:
                     if not self.voice_client.is_playing():
                         self.voice_client.play(audio_source)
-                        sound_title = self.sound_titles.get(random_sound_file, 'Unknown')
+                        # Get sound title from mapping, or use filename without extension
+                        sound_title = self.sound_titles.get(
+                            random_sound_file,
+                            os.path.splitext(random_sound_file)[0].replace('_', ' ').title()
+                        )
                         log_sound_play(sound_title, source='auto')
                         if text_channel:
                             await text_channel.send(f'Vous écoutez désormais: {sound_title}')

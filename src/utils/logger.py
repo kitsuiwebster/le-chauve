@@ -66,12 +66,12 @@ bot_logger = setup_logger()
 
 def log_bot_ready(bot_name):
     """Log when bot is ready"""
-    bot_logger.info(f"🤖 {bot_name} est connecté et prêt !")
+    bot_logger.info(f"👋 {bot_name} est connecté et prêt !")
 
 
 def log_voice_join(channel_name, member_count):
     """Log when joining a voice channel"""
-    bot_logger.info(f"🎤 Connexion au canal '{channel_name}' ({member_count} membre{'s' if member_count > 1 else ''})")
+    bot_logger.info(f"👉 Connexion au canal '{channel_name}' ({member_count} membre{'s' if member_count > 1 else ''})")
 
 
 def log_voice_leave(channel_name):
@@ -82,7 +82,7 @@ def log_voice_leave(channel_name):
 def log_sound_play(sound_name, source='auto'):
     """Log when playing a sound"""
     if source == 'auto':
-        bot_logger.info(f"🎵 Lecture: {sound_name}")
+        bot_logger.info(f"👉 Lecture: {sound_name}")
     else:
         bot_logger.info(f"🎮 Commande /play: {sound_name}")
 
@@ -99,7 +99,7 @@ def log_waiting(minutes, location):
 
 def log_cycle_restart():
     """Log when cycle restarts"""
-    bot_logger.info(f"🔄 Redémarrage du cycle")
+    bot_logger.info(f"👉 Redémarrage du cycle")
 
 
 def log_error(error_msg):
@@ -114,9 +114,9 @@ def log_warning(warning_msg):
 
 def log_slash_command_registered(count):
     """Log slash commands registration"""
-    bot_logger.info(f"⚡ {count} commandes slash enregistrées")
+    bot_logger.info(f"⚡ Commande /play activée ({count} sons disponibles)")
 
 
 def log_channels_available(channels):
     """Log available voice channels"""
-    bot_logger.info(f"📡 {len(channels)} canaux disponibles: {', '.join(channels)}")
+    bot_logger.info(f"📡 {len(channels)} canaux vocaux disponibles")

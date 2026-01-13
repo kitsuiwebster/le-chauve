@@ -27,7 +27,7 @@ logging.getLogger('discord.http').setLevel(logging.ERROR)
 class RomeoBot(commands.Bot):
     """Custom Bot class for Romeo"""
 
-    def __init__(self, song_titles):
+    def __init__(self, sound_titles):
         intents = discord.Intents.default()
         intents.typing = False
         intents.members = True
