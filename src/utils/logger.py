@@ -112,9 +112,9 @@ def log_warning(warning_msg):
     bot_logger.warning(f"⚠️  {warning_msg}")
 
 
-def log_slash_command_registered(count):
+def log_slash_command_registered(command_count, sound_count):
     """Log slash commands registration"""
-    bot_logger.info(f"⚡ Commande /play activée ({count} sons disponibles)")
+    bot_logger.info(f"⚡ {command_count} commande{'s' if command_count > 1 else ''} activée{'s' if command_count > 1 else ''} ({sound_count} sons disponibles)")
 
 
 def log_channels_available(channels):

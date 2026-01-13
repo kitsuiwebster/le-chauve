@@ -2,6 +2,8 @@
 
 import os
 import asyncio
+import random
+import time
 import discord
 from discord import app_commands
 from discord.ext import commands
@@ -21,6 +23,8 @@ class SoundCommandsCog(commands.Cog):
         self.sounds_dir = "sounds"
         self.sound_files = []
         self.sounds_by_letter = {}
+        self.user_sound_history = {}  # {user_id: [timestamps]}
+        self.limit_channel_id = 530043587367403530
 
     def load_sound_files(self):
         """Load list of available sound files and organize by first letter"""
@@ -41,8 +45,57 @@ class SoundCommandsCog(commands.Cog):
                 self.sounds_by_letter[first_letter] = []
             self.sounds_by_letter[first_letter].append(sound_file)
 
+    def check_user_limits(self, user_id: int) -> tuple[bool, str]:
+        """Check if user has exceeded sound limits. Returns (can_play, reason)"""
+        current_time = time.time()
+
+        # Clean up old entries
+        if user_id in self.user_sound_history:
+            # Remove entries older than 1 hour
+            self.user_sound_history[user_id] = [
+                ts for ts in self.user_sound_history[user_id]
+                if current_time - ts < 3600
+            ]
+
+        # Get user history
+        user_history = self.user_sound_history.get(user_id, [])
+
+        # Check minute limit (5 sounds per minute)
+        sounds_last_minute = sum(1 for ts in user_history if current_time - ts < 60)
+        if sounds_last_minute >= 5:
+            return False, "minute"
+
+        # Check hour limit (10 sounds per hour)
+        sounds_last_hour = len(user_history)
+        if sounds_last_hour >= 10:
+            return False, "hour"
+
+        return True, ""
+
+    def record_sound_play(self, user_id: int):
+        """Record that a user played a sound"""
+        if user_id not in self.user_sound_history:
+            self.user_sound_history[user_id] = []
+        self.user_sound_history[user_id].append(time.time())
+
     async def play_sound_in_voice(self, interaction: discord.Interaction, sound_file: str):
         """Play a specific sound in the user's voice channel and reset the cycle"""
+        # Check user limits
+        can_play, reason = self.check_user_limits(interaction.user.id)
+        if not can_play:
+            limit_channel = self.bot.get_channel(self.limit_channel_id)
+            if limit_channel:
+                if reason == "minute":
+                    await limit_channel.send(f"<@{interaction.user.id}> est devenu chauve")
+                elif reason == "hour":
+                    messages = [
+                        f"<@{interaction.user.id}> a sorti son bazouzou",
+                        f"<@{interaction.user.id}> a mis le paf"
+                    ]
+                    await limit_channel.send(random.choice(messages))
+            await interaction.response.send_message("❌ Limite de sons atteinte!", ephemeral=True)
+            return
+
         # Check if user is in a voice channel
         if not interaction.user.voice:
             await interaction.response.send_message("❌ Vous devez être dans un canal vocal!", ephemeral=True)
@@ -91,7 +144,10 @@ class SoundCommandsCog(commands.Cog):
                 os.path.splitext(sound_file)[0].replace('_', ' ').title()
             )
             log_sound_play(sound_display, source='command')
-            await interaction.response.send_message(f"{interaction.user.display_name} a lancé {sound_display}", ephemeral=False)
+            await interaction.response.send_message(f"**{interaction.user.display_name}** a lancé **{sound_display}**", ephemeral=False)
+
+            # Record that user played a sound
+            self.record_sound_play(interaction.user.id)
 
             # Wait for sound to finish playing
             await asyncio.sleep(audio_duration)
@@ -162,7 +218,7 @@ async def setup(bot):
     # Sync commands with Discord
     try:
         await bot.tree.sync()
-        log_slash_command_registered(len(cog.sounds_by_letter))
+        log_slash_command_registered(len(cog.sounds_by_letter), len(cog.sound_files))
     except Exception as e:
         pass
 

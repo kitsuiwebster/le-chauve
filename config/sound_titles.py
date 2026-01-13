@@ -60,7 +60,7 @@ sound_titles = {
     'je_te_baise_le_cul_oklm.mp3': 'Je te baise le cul oklm',
     'jen_afis_de_la_bouillie.mp3': 'J\'en ai fais de la bouillie',
     'jvais_faire_des_boites_avec_ta_mere.mp3': 'J\'vais faire des boîtes avec ta mère',
-    'jvais_treport_hein.mp3': 'J\'vais Tréport hein',
+    'jvais_treport_hein.mp3': 'J\'vais T\'report hein',
 
     # L
     'la_beuteu_de_gragas.mp3': 'La beuteu de Gragas',
