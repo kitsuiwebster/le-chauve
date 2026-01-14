@@ -60,14 +60,14 @@ class SoundCommandsCog(commands.Cog):
         # Get user history
         user_history = self.user_sound_history.get(user_id, [])
 
-        # Check minute limit (5 sounds per minute)
-        sounds_last_minute = sum(1 for ts in user_history if current_time - ts < 60)
-        if sounds_last_minute >= 5:
-            return False, "minute"
+        # Check 5-minute limit (10 sounds per 5 minutes)
+        sounds_last_5min = sum(1 for ts in user_history if current_time - ts < 300)
+        if sounds_last_5min >= 10:
+            return False, "5min"
 
-        # Check hour limit (10 sounds per hour)
+        # Check hour limit (40 sounds per hour)
         sounds_last_hour = len(user_history)
-        if sounds_last_hour >= 10:
+        if sounds_last_hour >= 40:
             return False, "hour"
 
         return True, ""
@@ -85,11 +85,11 @@ class SoundCommandsCog(commands.Cog):
         if not can_play:
             limit_channel = self.bot.get_channel(self.limit_channel_id)
             if limit_channel:
-                if reason == "minute":
+                if reason == "5min":
                     await limit_channel.send(f"<@{interaction.user.id}> est devenu chauve")
                 elif reason == "hour":
                     messages = [
-                        f"<@{interaction.user.id}> a sorti son bazouzou",
+                        f"<@{interaction.user.id}> a sorti le bazouzou",
                         f"<@{interaction.user.id}> a mis le paf"
                     ]
                     await limit_channel.send(random.choice(messages))
